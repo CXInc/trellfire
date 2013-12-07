@@ -1,0 +1,20 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "rickshaw": {}
+    },
+    "packages": {
+      "rickshaw": {
+        "git": "https://github.com/bitIO/meteor-rickshaw.git",
+        "tag": "v0.0.2",
+        "commit": "3387214eb34482979d65ddde99bad0cf59e5cade"
+      },
+      "d3js-package": {
+        "git": "https://github.com/acidsound/d3js-package.git",
+        "tag": "v0.5.1",
+        "commit": "7d3eda4fca00782624ef8e99db84488711ba17e3"
+      }
+    }
+  }
+}

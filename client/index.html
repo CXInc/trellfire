@@ -1,0 +1,27 @@
+<head>
+  <title>trello-burndown</title>
+</head>
+
+<body>
+  {{> sprint}}
+</body>
+
+<template name="sprint">
+  {{#if sprint}}
+    {{#if unlocked}}
+      <input type="date" class="end" name="end" />
+    {{/if}}
+
+    <input type="button" class="lock" value="Lock Sprint" {{lockDisabled}} />
+
+    <input type="button" class="update" value="Update" {{updateDisabled}} />
+
+    <span>{{errorMessage}}</span>
+
+    <div>
+      Hours: {{hoursRemaining}}
+    </div>
+
+    <div id="chart"></div>
+  {{/if}}
+</template>
