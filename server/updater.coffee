@@ -33,7 +33,12 @@
 
       if matches
         console.log "Found match! #{matches[1]}"
-        parseFloat(matches[1])
+        hours = parseFloat(matches[1])
+
+        if isNaN(hours)
+          0
+        else
+          hours
       else
         0
     else
