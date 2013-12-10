@@ -27,11 +27,12 @@ Template.sprint.events
 Template.sprint.rendered = ->
   if !@handle
     @handle = Meteor.autorun ->
-      console.log "Template.sprint.sprint() = #{Template.sprint.sprint()}"
       points = DataPoints.find({}, {sort: [["time" ]]}).map (point) ->
         {x: point.time, y: point.hoursRemaining}
 
       sprint = Sprints.findOne()
+
+      return unless sprint && points.length > 1
 
       lastPoint = DataPoints.findOne {}, {sort: [["time", "desc"]]}
       projectedSlope = -sprint.startHours / (sprint.endTime - sprint.startTime)
