@@ -2,9 +2,9 @@ Meteor.startup ->
   unless Sprints.findOne()
     Sprints.insert({updating: false})
 
-  # Meteor.setInterval ->
-  #   Meteor.call 'update'
-  # , 60000
+  Meteor.setInterval ->
+    Meteor.call 'update'
+  , 3600000
 
 Meteor.methods
 
