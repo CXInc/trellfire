@@ -61,6 +61,9 @@ Template.sprint.rendered = ->
 
       console.log("points = #{ JSON.stringify(series,true,2) }")
 
+      # clear out existing graph
+      $('#chart').html('')
+
       window.graph = new Rickshaw.Graph
         element: document.querySelector("#chart")
         width: 800
