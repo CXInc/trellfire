@@ -1,1 +1,9 @@
 /* CSS declarations go here */
+
+html, body{
+  height:100%;
+}
+
+#chart {
+  min-height: 90%;
+}

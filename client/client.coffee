@@ -3,6 +3,9 @@ Meteor.startup ->
   unless Session.get("sprint")
     Session.set "sprint", Sprints.findOne()
 
+  $(window).resize ->
+    Session.set("touch", new Date())
+
 Template.sprint.events
   'click .update' : ->
     Session.set "errorMessage", ""
@@ -27,6 +30,8 @@ Template.sprint.events
 Template.sprint.rendered = ->
   if !@handle
     @handle = Meteor.autorun ->
+      Session.get("touch")
+
       points = DataPoints.find({}, {sort: [["time" ]]}).map (point) ->
         {x: point.time, y: point.hoursRemaining}
 
@@ -66,8 +71,6 @@ Template.sprint.rendered = ->
 
       window.graph = new Rickshaw.Graph
         element: document.querySelector("#chart")
-        width: 800
-        height: 600
         renderer: 'line'
         interpolation: 'linear'
         series: series
