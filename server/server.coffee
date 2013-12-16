@@ -40,3 +40,8 @@ Meteor.methods
     Sprints.update {}, $set:
       startHours: firstPoint.hoursRemaining
       startTime: new Date().getTime() / 1000
+
+  reset: ->
+    DataPoints.remove({})
+    Sprints.remove({})
+    Sprints.insert({updating: false})
