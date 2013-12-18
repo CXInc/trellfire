@@ -1,3 +1,12 @@
 <template name="layout">
-  {{yield}}
+  <div class="container">
+    <header class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="/">Trello Burndown</a>
+      </div>
+    </header>
+    <div id="main" class="row-fluid">
+      {{yield}}
+    </div>
+  </div>
 </template>

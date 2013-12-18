@@ -4,7 +4,19 @@ html, body{
   height:100%;
 }
 
+.container {
+  height: 100%;
+}
+
+#main {
+  height: 100%;
+}
+
+input.end {
+  margin: 0;
+}
+
 #chart {
-  min-height: 90%;
+  min-height: 75%;
   width: 90%;
 }
