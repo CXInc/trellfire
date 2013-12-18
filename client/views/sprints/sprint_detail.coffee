@@ -1,4 +1,4 @@
-Template.sprint.events
+Template.sprintDetail.events
   'click .update' : ->
     Session.set "errorMessage", ""
 
@@ -17,7 +17,7 @@ Template.sprint.events
 
     Meteor.call 'lock'
 
-Template.sprint.rendered = ->
+Template.sprintDetail.rendered = ->
   if !@handle
     @handle = Meteor.autorun ->
       Session.get("touch")
@@ -69,7 +69,7 @@ Template.sprint.rendered = ->
 
       graph.render()
 
-Template.sprint.helpers
+Template.sprintDetail.helpers
   unlocked:  ->
     !@endTime
 

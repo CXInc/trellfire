@@ -1,12 +1,28 @@
 Meteor.startup ->
   unless Sprints.findOne()
-    Sprints.insert({updating: false})
+    Sprints.insert({updating: false, createdAt: new Date().getTime()})
 
   Meteor.setInterval ->
     Meteor.call 'update'
   , 3600000
 
 Meteor.methods
+
+  addSprint: (attributes) ->
+    if (!attributes.name)
+      throw new Meteor.Error(422, 'Please add a name');
+
+    sprintWithSameName = Sprints.findOne {name: attributes.name}
+
+    if sprintWithSameName
+      throw new Meteor.Error 302, 'A sprint with this name already exists', sprintWithSameName._id
+
+    sprint = _.extend _.pick(attributes, 'name'),
+      createdAt: new Date().getTime()
+
+    sprintId = Sprints.insert(sprint)
+
+    return sprintId;
 
   update: ->
     Sprints.update {}, {$set: {updating: true}}

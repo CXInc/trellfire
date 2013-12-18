@@ -8,4 +8,15 @@ Router.map ->
   @route 'currentSprint',
     path: '/'
     data: ->
-      Sprints.findOne {}, {sort: [["endDate", "desc"]]}
+      Sprints.findOne {}, {sort: [["createdAt", "desc"]]}
+
+  @route 'newSprint',
+    path: '/new'
+
+  @route 'sprintDetail',
+    path: '/sprints/:_id'
+    data: ->
+      Sprints.findOne @params._id
+
+  @route 'sprintList',
+    path: '/sprints'

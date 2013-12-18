@@ -4,6 +4,11 @@ html, body{
   height:100%;
 }
 
+body {
+    background: #eee;
+    color: #666666;
+}
+
 .container {
   height: 100%;
 }
@@ -20,3 +25,45 @@ input.end {
   min-height: 75%;
   width: 90%;
 }
+
+.sprint {
+  background: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.sprint {
+  *zoom: 1;
+  -webkit-transition: all 300ms 0ms;
+  -webkit-transition-delay: ease-in;
+  -moz-transition: all 300ms 0ms ease-in;
+  -o-transition: all 300ms 0ms ease-in;
+  transition: all 300ms 0ms ease-in;
+  position: relative;
+  opacity: 1;
+}
+.sprint:before, .sprint:after {
+  content: "";
+  display: table;
+}
+.sprint:after { clear: both }
+.sprint.invisible { opacity: 0 }
+.sprint .sprint-content { float: left }
+.sprint .sprint-content h3 {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 18px;
+}
+.sprint .sprint-content h3 a {
+  display: inline-block;
+  margin-right: 5px;
+}
+.sprint .sprint-content h3 span {
+  font-weight: normal;
+  font-size: 14px;
+  display: inline-block;
+  color: #aaaaaa;
+}
+.sprint .sprint-content p { margin: 0 }
