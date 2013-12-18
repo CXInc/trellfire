@@ -2,13 +2,25 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "rickshaw": {}
+      "rickshaw": {},
+      "iron-router": {},
+      "spin": {}
     },
     "packages": {
       "rickshaw": {
         "git": "https://github.com/bitIO/meteor-rickshaw.git",
         "tag": "v0.0.2",
         "commit": "3387214eb34482979d65ddde99bad0cf59e5cade"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.6.1",
+        "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
+      },
+      "spin": {
+        "git": "https://github.com/SachaG/meteor-spin.git",
+        "tag": "v0.2.0",
+        "commit": "fd3a2871a69442848b4b4e74f5e1ae28fa4a95a4"
       },
       "d3js-package": {
         "git": "https://github.com/acidsound/d3js-package.git",
