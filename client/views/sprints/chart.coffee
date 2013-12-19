@@ -56,3 +56,5 @@ Template.chart.rendered = ->
 
       graph.render()
 
+Template.chart.destroyed = ->
+  @handle.stop()
