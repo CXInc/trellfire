@@ -53,6 +53,9 @@ Meteor.methods
           owners: ['team']
 
   lock: (sprint) ->
+    console.log "Locking!"
+    console.log "sprint: #{JSON.stringify(sprint,true,2)}"
+
     console.log "removing all datapoints"
     DataPoints.remove({sprintId: sprint._id})
 

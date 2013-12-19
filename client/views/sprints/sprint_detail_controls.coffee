@@ -13,7 +13,7 @@ Template.sprintDetailControls.events
 
 Template.sprintDetailControls.helpers
   lockDisabled:  ->
-    if @endTime
+    if @startHours
       "disabled"
     else
       ""
