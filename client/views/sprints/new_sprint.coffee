@@ -9,4 +9,4 @@ Template.newSprint.events
       if (error)
         return alert(error.reason);
 
-      Router.go('sprint', {_id: id})
+      Router.go('sprintDetail', {_id: id})

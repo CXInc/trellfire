@@ -1,17 +1,4 @@
 <template name="sprintDetail">
-  {{#if unlocked}}
-    <input type="date" class="end" name="end" />
-  {{/if}}
-
-  <input type="button" class="lock btn" value="Lock Sprint" {{lockDisabled}} />
-
-  <input type="button" class="update btn" value="Update" {{updateDisabled}} />
-
-  <span>{{errorMessage}}</span>
-
-  <div>
-    Hours: {{hoursRemaining}}
-  </div>
-
-  <div id="chart"></div>
+  {{> sprintDetailControls}}
+  {{> chart}}
 </template>

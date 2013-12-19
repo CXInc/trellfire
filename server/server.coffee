@@ -1,6 +1,6 @@
 Meteor.startup ->
   unless Sprints.findOne()
-    Sprints.insert({updating: false, createdAt: new Date().getTime()})
+    Sprints.insert({updating: false, createdAt: Time.now()})
 
   Meteor.setInterval ->
     Meteor.call 'update'
@@ -31,33 +31,35 @@ Meteor.methods
     hours = Updater.run()
 
     console.log "Hours: #{hours}"
-    Sprints.update {}, {$set: {updating: false, hoursRemaining: hours}}
 
-    sprint = Sprints.findOne()
+    Sprints.find().forEach (sprint) ->
+      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+      return unless stillRunning
 
-    lastPoint = DataPoints.findOne {}, {sort: [["time", "desc"]]}
+      Sprints.update sprint._id,
+        $set:
+          updating: false
+          hoursRemaining: hours
 
-    if !lastPoint || lastPoint.hoursRemaining != hours
-      DataPoints.insert
-        sprintId: sprint._id
-        time: new Date().getTime() / 1000
-        hoursRemaining: hours
-        owners: ['team']
+      lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
+      console.log "lastPoint: #{lastPoint}"
 
-  lock: ->
-    DataPoints.remove({})
-    console.log "all datapoints removed"
+      if !lastPoint || lastPoint.hoursRemaining != hours
+        point = DataPoints.insert
+          sprintId: sprint._id
+          time: Time.now()
+          hoursRemaining: hours
+          owners: ['team']
+
+  lock: (sprint, endDate) ->
+    console.log "removing all datapoints"
+    DataPoints.remove({sprintId: sprint._id})
+
     Meteor.call 'update'
-    console.log "update called"
-
-    firstPoint = DataPoints.findOne()
+    firstPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "asc"]]}
     console.log "firstPoint: #{JSON.stringify(firstPoint,true,2)}"
 
-    Sprints.update {}, $set:
+    Sprints.update sprint._id, $set:
       startHours: firstPoint.hoursRemaining
-      startTime: new Date().getTime() / 1000
-
-  reset: ->
-    DataPoints.remove({})
-    Sprints.remove({})
-    Sprints.insert({updating: false})
+      startTime: Time.now()
+      endTime: Time.epoch(endDate) + 24 * 60 * 60

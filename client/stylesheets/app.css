@@ -5,16 +5,16 @@ html, body{
 }
 
 body {
-    background: #eee;
-    color: #666666;
+  background: #eee;
+  color: #666666;
 }
 
 .container {
-  height: 100%;
+  height: 90%;
 }
 
 #main {
-  height: 100%;
+  height: 90%;
 }
 
 input.end {
@@ -22,7 +22,7 @@ input.end {
 }
 
 #chart {
-  min-height: 75%;
+  min-height: 90%;
   width: 90%;
 }
 
