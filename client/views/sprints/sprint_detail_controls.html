@@ -1,10 +1,6 @@
 <template name="sprintDetailControls">
   <h2>{{name}}</h2>
 
-  {{#if unlocked}}
-    <input type="date" class="end" name="end" />
-  {{/if}}
-
   <input type="button" class="lock btn" value="Lock Sprint" {{lockDisabled}} />
 
   <input type="button" class="update btn" value="Update" {{updateDisabled}} />

@@ -1,26 +1,27 @@
 Meteor.startup ->
-  unless Sprints.findOne()
-    Sprints.insert({updating: false, createdAt: Time.now()})
-
   Meteor.setInterval ->
     Meteor.call 'update'
   , 3600000
 
 Meteor.methods
 
-  addSprint: (attributes) ->
-    if (!attributes.name)
-      throw new Meteor.Error(422, 'Please add a name');
+  addSprint: (endDate) ->
+    endTime = Time.epoch(endDate) + 24 * 60 * 60
 
-    sprintWithSameName = Sprints.findOne {name: attributes.name}
+    if (!endTime)
+      throw new Meteor.Error(422, 'Please select an end date');
 
-    if sprintWithSameName
-      throw new Meteor.Error 302, 'A sprint with this name already exists', sprintWithSameName._id
+    sprintWithSameEnd = Sprints.findOne {endTime: endTime}
 
-    sprint = _.extend _.pick(attributes, 'name'),
-      createdAt: new Date().getTime()
+    if sprintWithSameEnd
+      throw new Meteor.Error 302, 'A sprint with this end date already exists', sprintWithSameEnd._id
+
+    sprint =
+      endTime: endTime
 
     sprintId = Sprints.insert(sprint)
+
+    Meteor.call 'update'
 
     return sprintId;
 
@@ -51,7 +52,7 @@ Meteor.methods
           hoursRemaining: hours
           owners: ['team']
 
-  lock: (sprint, endDate) ->
+  lock: (sprint) ->
     console.log "removing all datapoints"
     DataPoints.remove({sprintId: sprint._id})
 
@@ -62,4 +63,3 @@ Meteor.methods
     Sprints.update sprint._id, $set:
       startHours: firstPoint.hoursRemaining
       startTime: Time.now()
-      endTime: Time.epoch(endDate) + 24 * 60 * 60

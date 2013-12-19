@@ -2,6 +2,7 @@
   "packages": {
     "rickshaw": {},
     "iron-router": {},
-    "spin": {}
+    "spin": {},
+    "moment": {}
   }
 }

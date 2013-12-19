@@ -9,14 +9,9 @@ Template.sprintDetailControls.events
   'click .lock' : ->
     console.log "LOCKING"
 
-    endDate = $('.end').val()
-
-    Meteor.call 'lock', @, endDate
+    Meteor.call 'lock', @
 
 Template.sprintDetailControls.helpers
-  unlocked:  ->
-    !@endTime
-
   lockDisabled:  ->
     if @endTime
       "disabled"

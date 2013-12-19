@@ -2,10 +2,9 @@ Template.newSprint.events
   'submit form': (e) ->
     e.preventDefault()
 
-    sprint =
-      name: $(e.target).find('[name=name]').val()
+    endDate = $(e.target).find('[name=end]').val()
 
-    Meteor.call 'addSprint', sprint, (error, id) ->
+    Meteor.call 'addSprint', endDate, (error, id) ->
       if (error)
         return alert(error.reason);
 
