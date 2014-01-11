@@ -1,5 +1,16 @@
-Meteor.publish 'sprints', (options) ->
-  Sprints.find {}, options
+authorized = (userId) ->
+  user = Meteor.users.findOne({_id: userId})
+  user && user.authorized
 
-Meteor.publish 'data_points', (options) ->
-  DataPoints.find {}, options
+Deps.autorun ->
+  Meteor.publish 'sprints', (options) ->
+    if authorized(@userId)
+      Sprints.find {}, options
+    else
+      @stop()
+
+  Meteor.publish 'data_points', (options) ->
+    if authorized(@userId)
+      DataPoints.find {}, options
+    else
+      @stop()

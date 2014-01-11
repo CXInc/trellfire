@@ -3,6 +3,11 @@ Meteor.startup ->
     Meteor.call 'update'
   , 3600000
 
+Meteor.users.find({}).observe
+  added: (user) ->
+    unless user.authorized
+      Authorization.authorize(user)
+
 Meteor.methods
 
   addSprint: (endDate) ->
