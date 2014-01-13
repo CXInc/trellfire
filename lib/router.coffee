@@ -4,6 +4,16 @@ Router.configure
   waitOn: ->
     [Meteor.subscribe('sprints'), Meteor.subscribe('data_points')]
 
+isAuthenticated = ->
+  if !Meteor.loggingIn() && !Meteor.user()
+    @render('signIn')
+    @stop()
+
+isAuthorized = ->
+  if !Meteor.user().authorized
+    @render('unauthorized')
+    @stop()
+
 Router.map ->
   @route 'currentSprint',
     path: '/'
@@ -20,3 +30,9 @@ Router.map ->
 
   @route 'sprintList',
     path: '/sprints'
+
+Router.before isAuthenticated,
+  except: ['signIn']
+
+Router.before isAuthorized,
+  except: ['signIn', 'unauthorized']

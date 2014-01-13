@@ -14,3 +14,8 @@ Deps.autorun ->
       DataPoints.find {}, options
     else
       @stop()
+
+  Meteor.publish 'userData', ->
+    Meteor.users.find {_id: @userId},
+      fields:
+        authorized: 1
