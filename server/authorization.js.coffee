@@ -22,6 +22,7 @@
 
           Meteor.users.update user._id,
             $set:
+              authCheckComplete: true
               authorized: authorized
       , (e) ->
         console.log 'bind failure'

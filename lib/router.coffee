@@ -10,7 +10,7 @@ isAuthenticated = ->
     @stop()
 
 isAuthorized = ->
-  if Meteor.user() && !Meteor.user().authorized
+  if Meteor.user() && Meteor.user().authCheckComplete && !Meteor.user().authorized
     @render('unauthorized')
     @stop()
 
