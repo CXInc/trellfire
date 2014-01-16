@@ -20,11 +20,11 @@ Template.sprintDetailControls.helpers
 
   lockButtonText: ->
     if @startHours
-      "Locked"
+      "Sprint Locked"
     else if @locking
-      "Locking"
+      "Locking Sprint..."
     else
-      "Lock"
+      "Lock Sprint"
 
   updateDisabled:  ->
     if @updating

@@ -33,29 +33,32 @@ Meteor.methods
 
     console.log "Updatin'"
 
-    hours = Updater.run()
+    try
+      hours = Updater.run()
 
-    console.log "Hours: #{hours}"
+      console.log "Hours: #{hours}"
 
-    Sprints.find().forEach (sprint) ->
-      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
-      return unless stillRunning
+      Sprints.find().forEach (sprint) ->
+        stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+        return unless stillRunning
 
-      Sprints.update sprint._id,
-        $set:
-          hoursRemaining: hours
+        Sprints.update sprint._id,
+          $set:
+            hoursRemaining: hours
 
-      lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
-      console.log "lastPoint: #{lastPoint}"
+        lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
+        console.log "lastPoint: #{lastPoint}"
 
-      if !lastPoint || lastPoint.hoursRemaining != hours
-        point = DataPoints.insert
-          sprintId: sprint._id
-          time: Time.now()
-          hoursRemaining: hours
-          owners: ['team']
-
-    Sprints.update {}, {$set: {updating: false}}, {multi: true}
+        if !lastPoint || lastPoint.hoursRemaining != hours
+          point = DataPoints.insert
+            sprintId: sprint._id
+            time: Time.now()
+            hoursRemaining: hours
+            owners: ['team']
+    catch error
+      console.log "Update failed: #{error}"
+    finally
+      Sprints.update {}, {$set: {updating: false}}, {multi: true}
 
   lock: (sprint) ->
     Sprints.update sprint._id, {$set: {locking: true}}
