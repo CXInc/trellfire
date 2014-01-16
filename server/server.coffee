@@ -31,7 +31,8 @@ Meteor.methods
     return sprintId;
 
   update: ->
-    Sprints.update {}, {$set: {updating: true}}
+    Sprints.update {}, {$set: {updating: true}}, {multi: true}
+
     console.log "Updatin'"
 
     hours = Updater.run()
@@ -44,7 +45,6 @@ Meteor.methods
 
       Sprints.update sprint._id,
         $set:
-          updating: false
           hoursRemaining: hours
 
       lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
@@ -56,6 +56,8 @@ Meteor.methods
           time: Time.now()
           hoursRemaining: hours
           owners: ['team']
+
+    Sprints.update {}, {$set: {updating: false}}, {multi: true}
 
   lock: (sprint) ->
     console.log "Locking!"
