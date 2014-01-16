@@ -26,8 +26,6 @@ Meteor.methods
 
     sprintId = Sprints.insert(sprint)
 
-    Meteor.call 'update'
-
     return sprintId;
 
   update: ->
@@ -60,6 +58,8 @@ Meteor.methods
     Sprints.update {}, {$set: {updating: false}}, {multi: true}
 
   lock: (sprint) ->
+    Sprints.update sprint._id, {$set: {locking: true}}
+
     console.log "Locking!"
     console.log "sprint: #{JSON.stringify(sprint,true,2)}"
 
@@ -73,3 +73,4 @@ Meteor.methods
     Sprints.update sprint._id, $set:
       startHours: firstPoint.hoursRemaining
       startTime: Time.now()
+      locking: false

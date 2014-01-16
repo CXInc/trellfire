@@ -13,16 +13,30 @@ Template.sprintDetailControls.events
 
 Template.sprintDetailControls.helpers
   lockDisabled:  ->
-    if @startHours
+    if @updating || @startHours || @locking
       "disabled"
     else
       ""
+
+  lockButtonText: ->
+    if @startHours
+      "Locked"
+    else if @locking
+      "Locking"
+    else
+      "Lock"
 
   updateDisabled:  ->
     if @updating
       "disabled"
     else
       ""
+
+  updateButtonText: ->
+    if @updating
+      "Updating..."
+    else
+      "Update"
 
   errorMessage:  ->
     Session.get("errorMessage")
