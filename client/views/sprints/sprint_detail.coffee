@@ -1,0 +1,1 @@
+Template.sprintDetail.helpers(SprintHelpers)
