@@ -14,6 +14,13 @@ isAuthorized = ->
     @render('unauthorized')
     @stop()
 
+hasOneSprint = ->
+  sprint = Sprints.findOne({})
+
+  unless sprint?
+    @render('newSprint')
+    @stop()
+
 Router.map ->
   @route 'currentSprint',
     path: '/'
@@ -35,4 +42,7 @@ Router.before isAuthenticated,
   except: ['signIn']
 
 Router.before isAuthorized,
+  except: ['signIn', 'unauthorized']
+
+Router.before hasOneSprint,
   except: ['signIn', 'unauthorized']
