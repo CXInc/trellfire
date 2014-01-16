@@ -1,3 +1,6 @@
 {
-  "org":"CXInc"
+  "org":"GITHUB ORG NAME",
+  "trelloBoardId": "TRELLO BOARD ID",
+  "trelloToken": "OAUTH TOKEN",
+  "trelloKey": "TRELLO DEVELOPER KEY"
 }

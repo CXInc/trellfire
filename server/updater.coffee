@@ -1,12 +1,18 @@
 @Updater =
 
-  BOARDID: "51cb0d2399125ad407001a6c"
-  TOKEN: "cce33925e5a5dc4087452c8292743c1ef09d88da1e9967bbf39dfe8d18297741"
-  KEY: "6e60db58cf32f8f27ec3a41ec232b595"
+  boardId: ->
+    Meteor.settings.trelloBoardId
+
+  key: ->
+    Meteor.settings.trelloKey
+
+  token: ->
+    Meteor.settings.trelloToken
 
   run: ->
     console.log "requesting board"
-    result = HTTP.get "https://trello.com/1/boards/#{@BOARDID}/cards?key=#{@KEY}&token=#{@TOKEN}"
+
+    result = HTTP.get "https://trello.com/1/boards/#{@boardId()}/cards?key=#{@key()}&token=#{@token()}"
 
     _.reduce result.data, (sum, card) =>
       sum + @cardHours(card.id)
@@ -14,7 +20,7 @@
 
   cardHours: (id) ->
     console.log "requesting card"
-    result = HTTP.get "https://trello.com/1/cards/#{id}/checklists?key=#{@KEY}&token=#{@TOKEN}"
+    result = HTTP.get "https://trello.com/1/cards/#{id}/checklists?key=#{@key()}&token=#{@token()}"
 
     _.reduce result.data, (sum, checklist) =>
       sum + @checklistHours(checklist)
