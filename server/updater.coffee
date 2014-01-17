@@ -14,24 +14,21 @@
 
     result = HTTP.get "https://trello.com/1/boards/#{@boardId()}/cards?key=#{@key()}&token=#{@token()}"
 
-    _.reduce result.data, (sum, card) =>
-      sum + @cardHours(card.id)
-    , 0.0
+    _.each result.data, (card) =>
+      @updateCard(card)
 
-  cardHours: (id) ->
-    console.log "requesting card"
-    result = HTTP.get "https://trello.com/1/cards/#{id}/checklists?key=#{@key()}&token=#{@token()}"
+  updateCard: (card) ->
+    console.log "requesting card: #{card.id}"
+    result = HTTP.get "https://trello.com/1/cards/#{card.id}/checklists?key=#{@key()}&token=#{@token()}"
 
-    _.reduce result.data, (sum, checklist) =>
-      sum + @checklistHours(checklist)
-    , 0.0
+    _.each result.data, (checklist) =>
+      @updateChecklist(checklist, card.id)
 
-  checklistHours: (checklist) ->
-    _.reduce checklist.checkItems, (sum, item) =>
-      sum + @checkItemHours(item)
-    , 0.0
+  updateChecklist: (checklist, cardId) ->
+    _.each checklist.checkItems, (item) =>
+      @updateCheckItem(item, checklist.id, cardId)
 
-  checkItemHours: (item) ->
+  updateCheckItem: (item, checklistId, cardId) ->
     if item.state == "incomplete"
       console.log "Incomplete item: #{item.name}"
 
@@ -44,8 +41,41 @@
         if isNaN(hours)
           0
         else
-          hours
-      else
-        0
-    else
-      0
+          @upsertTask
+            trelloId: item.id
+            checklistId: checklistId
+            cardId: cardId
+            hours: hours
+
+  upsertTask: (data) ->
+    Sprints.find().forEach (sprint) ->
+      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+
+      if stillRunning
+        Tasks.upsert {trelloId: data.trelloId, sprintId: sprint._id}, _.extend data,
+          sprintId: sprint._id
+
+  recalculateHours: ->
+    console.log "Calculating hours"
+    tasks = Tasks.find({}).fetch()
+
+    hours = _.reduce tasks, (sum, task) ->
+      sum + task.hours
+    , 0.0
+
+    Sprints.find().forEach (sprint) ->
+      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+      return unless stillRunning
+
+      Sprints.update sprint._id,
+        $set:
+          hoursRemaining: hours
+
+      lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
+
+      if !lastPoint || lastPoint.hoursRemaining != hours
+        point = DataPoints.insert
+          sprintId: sprint._id
+          time: Time.now()
+          hoursRemaining: hours
+          owners: ['team']

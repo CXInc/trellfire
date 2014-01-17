@@ -38,11 +38,21 @@ Router.map ->
   @route 'sprintList',
     path: '/sprints'
 
+  @route 'trelloWebhook',
+    path: '/webhook'
+    where: 'server'
+    action: ->
+      console.log @request.body
+      TrelloEvents.handle(@request.body)
+      @response.writeHead 200,
+        'Content-Type': 'application/json'
+      @response.write('{"result":"OK"}');
+
 Router.before isAuthenticated,
-  except: ['signIn']
+  except: ['signIn', 'trelloWebhook']
 
 Router.before isAuthorized,
-  except: ['signIn', 'unauthorized']
+  except: ['signIn', 'unauthorized', 'trelloWebhook']
 
 Router.before hasOneSprint,
-  except: ['signIn', 'unauthorized']
+  except: ['signIn', 'unauthorized', 'trelloWebhook']
