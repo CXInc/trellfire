@@ -6,7 +6,8 @@
       "iron-router": {},
       "spin": {},
       "moment": {},
-      "github-api": {}
+      "github-api": {},
+      "percolatestudio-migrations": {}
     },
     "packages": {
       "rickshaw": {
@@ -16,23 +17,28 @@
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.6.1",
-        "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
+        "tag": "v0.6.2",
+        "commit": "ce56e58b45624dce992490f3a1c10f10d3948bae"
       },
       "spin": {
         "git": "https://github.com/SachaG/meteor-spin.git",
-        "tag": "v0.2.0",
-        "commit": "fd3a2871a69442848b4b4e74f5e1ae28fa4a95a4"
+        "tag": "v0.2.2",
+        "commit": "3f655f0016228e4195acc784c45d3e3a247dc39f"
       },
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.2.1",
-        "commit": "9ee12e714afe56b189f53076447b7b54f3012065"
+        "tag": "v2.5.1",
+        "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
       },
       "github-api": {
         "git": "https://github.com/ndhoule/meteor-github-api.git",
         "tag": "v0.1.11",
         "commit": "3f72e744cdf4aca0e77cc39022ed6f3b53200734"
+      },
+      "percolatestudio-migrations": {
+        "git": "https://github.com/percolatestudio/meteor-migrations.git",
+        "tag": "v0.5.1",
+        "commit": "02f9cf94da154315a699b372271199a1c71b79fa"
       },
       "d3js-package": {
         "git": "https://github.com/acidsound/d3js-package.git",

@@ -23,7 +23,15 @@ input.end {
 
 #chart {
   min-height: 90%;
-  width: 90%;
+  width: 75%;
+  float: left;
+}
+
+#legend {
+  min-height: : 90%;
+  width: 20%;
+  margin-left: 4%;
+  float: left;
 }
 
 .sprint {

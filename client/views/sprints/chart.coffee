@@ -1,13 +1,24 @@
 actualSeries = (sprintId) ->
-  points = DataPoints.find({sprintId: sprintId}, {sort: [["time", "asc"]]}).map (point) ->
-    {x: point.time, y: point.hoursRemaining}
+  points = DataPoints.find
+    sprintId: sprintId
+  ,
+    sort: [["time", "asc"]]
 
-  if points.length > 0
-    {
-      color: 'steelblue'
-      name: 'Actual'
-      data: points
-    }
+  if points.count() > 0
+    grouped = _.groupBy points.fetch(), (point) ->
+      point.owner
+
+    palette = new Rickshaw.Color.Palette()
+
+    _.map grouped, (points, owner) ->
+      color = if owner == 'team' then 'steelblue' else palette.color()
+
+      {
+        color: color
+        name: "Actual for #{owner}"
+        data: _.map points, (point) ->
+          {x: point.time, y: point.hoursRemaining}
+      }
   else
     null
 
@@ -44,16 +55,14 @@ Template.chart.rendered = ->
     @handle = Meteor.autorun ->
       Session.get("touch")
 
-      actual = actualSeries(sprintId)
-      return unless actual
-
-      series = [actual]
+      series = actualSeries(sprintId)
+      return unless series
 
       projected = projectedSeries(sprintId)
       series.push(projected) if projected
 
       # clear out existing graph
-      $('#chart').html('')
+      $('#chart, #legend').html('')
 
       window.graph = new Rickshaw.Graph
         element: document.querySelector("#chart")
@@ -66,6 +75,18 @@ Template.chart.rendered = ->
 
       hoverDetail = new Rickshaw.Graph.HoverDetail
         graph: graph
+
+      legend = new Rickshaw.Graph.Legend
+        element: document.querySelector('#legend')
+        graph: graph
+
+      shelving = new Rickshaw.Graph.Behavior.Series.Toggle
+        graph: graph
+        legend: legend
+
+      highlighter = new Rickshaw.Graph.Behavior.Series.Highlight
+        graph: graph
+        legend: legend
 
       graph.render()
 

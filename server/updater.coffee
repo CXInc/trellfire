@@ -46,6 +46,11 @@
             checklistId: checklistId
             cardId: cardId
             hours: hours
+            owners: @parseOwners(item.name)
+
+  parseOwners: (itemName) ->
+    owners = itemName.match(/(\@\w+)/g) || []
+    owners.concat("team")
 
   upsertTask: (data) ->
     Sprints.find().forEach (sprint) ->
@@ -54,14 +59,18 @@
       if stillRunning
         Tasks.upsert {trelloId: data.trelloId, sprintId: sprint._id}, _.extend data,
           sprintId: sprint._id
+          owners: data.owners
 
   recalculateHours: ->
     console.log "Calculating hours"
     tasks = Tasks.find({}).fetch()
 
-    hours = _.reduce tasks, (sum, task) ->
-      sum + task.hours
-    , 0.0
+    ownerHours = {}
+
+    _.each tasks, (task) ->
+      _.each task.owners, (owner) ->
+        ownerHours[owner] ||= 0
+        ownerHours[owner] += task.hours
 
     Sprints.find().forEach (sprint) ->
       stillRunning = !sprint.endTime || Time.now() < sprint.endTime
@@ -69,13 +78,18 @@
 
       Sprints.update sprint._id,
         $set:
-          hoursRemaining: hours
+          hoursRemaining: ownerHours.team
 
-      lastPoint = DataPoints.findOne {sprintId: sprint._id}, {sort: [["time", "desc"]]}
+      lastPoint = DataPoints.findOne
+        sprintId: sprint._id
+        owner: 'team'
+      ,
+        sort: [["time", "desc"]]
 
-      if !lastPoint || lastPoint.hoursRemaining != hours
-        point = DataPoints.insert
-          sprintId: sprint._id
-          time: Time.now()
-          hoursRemaining: hours
-          owners: ['team']
+      if !lastPoint || lastPoint.hoursRemaining != ownerHours.team
+        _.each ownerHours, (hours, owner) ->
+          point = DataPoints.insert
+            sprintId: sprint._id
+            time: Time.now()
+            hoursRemaining: hours
+            owner: owner

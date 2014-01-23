@@ -4,6 +4,7 @@
     "iron-router": {},
     "spin": {},
     "moment": {},
-    "github-api": {}
+    "github-api": {},
+    "percolatestudio-migrations": {}
   }
 }

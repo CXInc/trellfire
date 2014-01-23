@@ -30,7 +30,7 @@ Meteor.methods
 
   update: ->
     Sprints.update {}, {$set: {updating: true}}, {multi: true}
-    Tasks.remove {}
+    Tasks.update {}, {$set: {hours: 0}}, {multi: true}
 
     console.log "Updatin'"
 

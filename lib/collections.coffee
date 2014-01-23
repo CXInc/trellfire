@@ -1,4 +1,5 @@
-@Sprints = new Meteor.Collection("sprints")
 @DataPoints = new Meteor.Collection("data_points")
+@People = new Meteor.Collection("people")
+@Sprints = new Meteor.Collection("sprints")
 @Tasks = new Meteor.Collection("tasks")
 @Webhooks = new Meteor.Collection("webhooks")

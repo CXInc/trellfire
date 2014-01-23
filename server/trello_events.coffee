@@ -18,7 +18,7 @@
 
     if item.state == "complete"
       console.log "removing #{item.id}"
-      Tasks.remove {trelloId: item.id}
+      Tasks.update {trelloId: item.id}, {$set: {hours: 0}}
     else
       console.log "updating check item #{item.id}"
       Updater.updateCheckItem(item, listId, cardId)
@@ -28,13 +28,13 @@
   removeChecklist: (checklist) ->
     console.log "removeChecklist"
 
-    Tasks.remove {checklistId: checklist.id}
+    Tasks.update {checklistId: checklist.id}, {$set: {hours: 0}}
     Updater.recalculateHours()
 
   removeCard: (card) ->
     console.log "removeCard"
 
-    Tasks.remove {cardId: card.id}
+    Tasks.update {cardId: card.id}, {$set: {hours: 0}}
     Updater.recalculateHours()
 
   updateCard: (card) ->
