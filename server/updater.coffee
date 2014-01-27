@@ -63,18 +63,12 @@
 
   recalculateHours: ->
     console.log "Calculating hours"
-    tasks = Tasks.find({}).fetch()
-
-    ownerHours = {}
-
-    _.each tasks, (task) ->
-      _.each task.owners, (owner) ->
-        ownerHours[owner] ||= 0
-        ownerHours[owner] += task.hours
 
     Sprints.find().forEach (sprint) ->
       stillRunning = !sprint.endTime || Time.now() < sprint.endTime
       return unless stillRunning
+
+      ownerHours = @currentHours(sprint._id)
 
       Sprints.update sprint._id,
         $set:
@@ -93,3 +87,13 @@
             time: Time.now()
             hoursRemaining: hours
             owner: owner
+
+  currentHours: (sprintId) ->
+    tasks = Tasks.find({sprintId: sprintId}).fetch()
+
+    ownerHours = {}
+
+    _.each tasks, (task) ->
+      _.each task.owners, (owner) ->
+        ownerHours[owner] ||= 0
+        ownerHours[owner] += task.hours
