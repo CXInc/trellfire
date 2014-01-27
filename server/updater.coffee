@@ -64,7 +64,7 @@
   recalculateHours: ->
     console.log "Calculating hours"
 
-    Sprints.find().forEach (sprint) ->
+    Sprints.find().forEach (sprint) =>
       stillRunning = !sprint.endTime || Time.now() < sprint.endTime
       return unless stillRunning
 
@@ -97,3 +97,5 @@
       _.each task.owners, (owner) ->
         ownerHours[owner] ||= 0
         ownerHours[owner] += task.hours
+
+    ownerHours
