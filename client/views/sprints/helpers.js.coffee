@@ -1,4 +1,4 @@
 @SprintHelpers =
 
   displayDate:  ->
-    moment(@endTime * 1000).format("MMMM D YYYY")
+    moment(@endTime, "X").format("MMMM D YYYY")

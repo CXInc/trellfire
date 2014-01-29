@@ -11,7 +11,7 @@ Meteor.users.find({}).observe
 Meteor.methods
 
   addSprint: (endDate) ->
-    endTime = Time.epoch(endDate) + 24 * 60 * 60
+    endTime = Time.dayAfter(endDate)
 
     if (!endTime)
       throw new Meteor.Error(422, 'Please select an end date');

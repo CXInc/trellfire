@@ -1,7 +1,7 @@
 @Time =
 
   now: ->
-    @epoch( new Date() )
+    moment().unix()
 
-  epoch: (date) ->
-    new Date(date).getTime() / 1000
+  dayAfter: (dateString) ->
+    moment(dateString).add(1, 'd').unix()
