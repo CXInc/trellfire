@@ -1,4 +1,7 @@
 {
+  "public": {
+    "appName": "Trello Burndown"
+  },
   "org":"GITHUB ORG NAME",
   "trelloBoardId": "TRELLO BOARD ID",
   "trelloToken": "OAUTH TOKEN",
