@@ -27,6 +27,11 @@ Router.map ->
     data: ->
       Sprints.findOne {}, {sort: [["endTime", "desc"]]}
 
+  @route 'excludedDayList',
+    path: '/sprints/:_id/excluded-days'
+    data: ->
+      Sprints.findOne @params._id
+
   @route 'newSprint',
     path: '/new'
 

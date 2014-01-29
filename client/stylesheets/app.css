@@ -34,7 +34,7 @@ input.end {
   float: left;
 }
 
-.sprint {
+.item {
   background: #fff;
   border-radius: 3px;
   padding: 10px;
@@ -42,7 +42,7 @@ input.end {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
-.sprint {
+.item {
   *zoom: 1;
   -webkit-transition: all 300ms 0ms;
   -webkit-transition-delay: ease-in;
@@ -52,26 +52,30 @@ input.end {
   position: relative;
   opacity: 1;
 }
-.sprint:before, .sprint:after {
+.item:before, .item:after {
   content: "";
   display: table;
 }
-.sprint:after { clear: both }
-.sprint.invisible { opacity: 0 }
-.sprint .sprint-content { float: left }
-.sprint .sprint-content h3 {
+.item:after { clear: both }
+.item.invisible { opacity: 0 }
+.item .item-content { float: left }
+.item .item-content h3 {
   margin: 0;
   line-height: 1.4;
   font-size: 18px;
 }
-.sprint .sprint-content h3 a {
+.item .item-content h3 a {
   display: inline-block;
   margin-right: 5px;
 }
-.sprint .sprint-content h3 span {
+.item .item-content h3 span {
   font-weight: normal;
   font-size: 14px;
   display: inline-block;
   color: #aaaaaa;
 }
-.sprint .sprint-content p { margin: 0 }
+.item .item-content p { margin: 0 }
+
+.item .remove {
+  float: right;
+}

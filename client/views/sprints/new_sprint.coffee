@@ -9,7 +9,6 @@ Template.newSprint.events
     $.each $(e.target).serializeArray(), ->
       data[@name] = @value
 
-
     Meteor.call 'addSprint', data, (error, id) ->
       Session.set "isCreatingSprint", false
 

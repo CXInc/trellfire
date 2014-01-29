@@ -1,0 +1,14 @@
+<template name="excludedDayList">
+  <h3>
+    <a href="{{pathFor 'sprintDetail' this}}">Sprint ending {{displayDate}}</a>: Excluded days
+  </h3>
+
+  <form class="form-inline">
+    <input type="date" name="date" />
+    <button type="submit" value="Add" class="btn">Add</button>
+  </form>
+
+  {{#each excludedTimes}}
+    {{> excludedDayItem}}
+  {{/each}}
+</template>
