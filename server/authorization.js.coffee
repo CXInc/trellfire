@@ -2,7 +2,6 @@
 
   authorize: (user) ->
     token = user.services.github.accessToken
-    console.log "github token: #{token}"
 
     github = new GitHub
       version: "3.0.0"

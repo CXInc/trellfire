@@ -4,8 +4,13 @@ Template.newSprint.events
 
     Session.set "isCreatingSprint", true
 
-    endDate = $(e.target).find('[name=end]').val()
-    Meteor.call 'addSprint', endDate, (error, id) ->
+    data = {}
+
+    $.each $(e.target).serializeArray(), ->
+      data[@name] = @value
+
+
+    Meteor.call 'addSprint', data, (error, id) ->
       Session.set "isCreatingSprint", false
 
       if (error)

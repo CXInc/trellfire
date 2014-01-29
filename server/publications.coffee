@@ -15,6 +15,12 @@ Deps.autorun ->
     else
       @stop()
 
+  Meteor.publish 'excluded_times', (options) ->
+    if authorized(@userId)
+      ExcludedTimes.find {}, options
+    else
+      @stop()
+
   Meteor.publish 'userData', ->
     Meteor.users.find {_id: @userId},
       fields:

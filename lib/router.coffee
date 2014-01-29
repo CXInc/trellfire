@@ -2,7 +2,7 @@ Router.configure
   layoutTemplate: 'layout'
   loadingTemplate: 'loading'
   waitOn: ->
-    [Meteor.subscribe('sprints'), Meteor.subscribe('data_points')]
+    [Meteor.subscribe('sprints'), Meteor.subscribe('data_points'), Meteor.subscribe('excluded_times')]
 
 isAuthenticated = ->
   if !Meteor.loggingIn() && !Meteor.user()
@@ -42,7 +42,6 @@ Router.map ->
     path: '/webhook'
     where: 'server'
     action: ->
-      console.log @request.body
       TrelloEvents.handle(@request.body)
       @response.writeHead 200,
         'Content-Type': 'application/json'

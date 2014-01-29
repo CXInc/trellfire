@@ -10,8 +10,8 @@ Meteor.users.find({}).observe
 
 Meteor.methods
 
-  addSprint: (endDate) ->
-    endTime = moment(endDate).endOf('day')
+  addSprint: (data) ->
+    endTime = moment(data.end).endOf('day').unix()
 
     if (!endTime)
       throw new Meteor.Error(422, 'Please select an end date');
@@ -25,6 +25,8 @@ Meteor.methods
       endTime: endTime
 
     sprintId = Sprints.insert(sprint)
+
+    Excluder.excludeWeekends(sprintId) if data.excludeWeekends
 
     return sprintId;
 
