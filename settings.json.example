@@ -5,6 +5,5 @@
   "org":"GITHUB ORG NAME",
   "trelloBoardId": "TRELLO BOARD ID",
   "trelloToken": "OAUTH TOKEN",
-  "trelloKey": "TRELLO DEVELOPER KEY",
-  "rootUrl": "OPTIONAL ROOT URL OF APP"
+  "trelloKey": "TRELLO DEVELOPER KEY"
 }
