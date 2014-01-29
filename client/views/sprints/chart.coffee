@@ -69,7 +69,7 @@ projectedSeries = (sprintId) ->
 
   if currentTime > sprint.endTime
     endTime = sprint.endTime
-    endHours = 0
+    hours = 0
   else
     endTime = currentTime
     elapsedTime = endTime - lastPoint.x
