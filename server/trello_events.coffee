@@ -1,6 +1,8 @@
 @TrelloEvents =
 
   handle: (data) ->
+    return unless data.action
+
     actionData = data.action.data
 
     switch data.action.type
