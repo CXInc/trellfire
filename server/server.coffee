@@ -11,7 +11,7 @@ Meteor.users.find({}).observe
 Meteor.methods
 
   addSprint: (endDate) ->
-    endTime = Time.dayAfter(endDate)
+    endTime = moment(endDate).endOf('day')
 
     if (!endTime)
       throw new Meteor.Error(422, 'Please select an end date');
@@ -58,5 +58,5 @@ Meteor.methods
 
     Sprints.update sprint._id, $set:
       startHours: firstPoint.hoursRemaining
-      startTime: Time.now()
+      startTime: moment().unix()
       locking: false

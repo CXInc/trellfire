@@ -27,7 +27,7 @@ projectedSeries = (sprintId) ->
 
   return null unless sprint.startTime
 
-  currentTime = Time.now()
+  currentTime = moment().unix()
 
   if currentTime > sprint.endTime
     endTime = sprint.endTime

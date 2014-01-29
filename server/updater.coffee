@@ -61,7 +61,7 @@
 
   upsertTask: (data) ->
     Sprints.find().forEach (sprint) ->
-      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+      stillRunning = !sprint.endTime || moment().unix() < sprint.endTime
 
       if stillRunning
         Tasks.upsert {trelloId: data.trelloId, sprintId: sprint._id}, _.extend data,
@@ -72,7 +72,7 @@
     console.log "Calculating hours"
 
     Sprints.find().forEach (sprint) =>
-      stillRunning = !sprint.endTime || Time.now() < sprint.endTime
+      stillRunning = !sprint.endTime || moment().unix() < sprint.endTime
       return unless stillRunning
 
       ownerHours = @currentHours(sprint._id)
@@ -88,7 +88,7 @@
         _.each ownerHours, (hours, owner) ->
           point = DataPoints.insert
             sprintId: sprint._id
-            time: Time.now()
+            time: moment().unix()
             hoursRemaining: hours
             owner: owner
 

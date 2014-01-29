@@ -4,7 +4,7 @@ Accounts.ui.config
 
 Meteor.startup ->
   $(window).resize ->
-    Session.set "touch", Time.now()
+    Session.set "touch", moment().unix()
 
   Deps.autorun ->
     Meteor.subscribe 'userData'
