@@ -27,7 +27,7 @@
     result = HTTP.post url,
       data:
         description: "trello-burndown"
-        callbackURL: Meteor.absoluteUrl.defaultOptions.rootUrl + "/webhook"
+        callbackURL: @webhookUrl()
         idModel: Meteor.settings.trelloBoardId
     console.log "create result: #{JSON.stringify(result.data,true,2)}"
 
@@ -39,3 +39,7 @@
 
   token: ->
     Meteor.settings.trelloToken
+
+  webhookUrl: ->
+    rootUrl = Meteor.settings.rootUrl || Meteor.absoluteUrl.defaultOptions.rootUrl
+    rootUrl + "/webhook"
