@@ -32,11 +32,17 @@
     if item.state == "incomplete"
       console.log "Incomplete item: #{item.name}"
 
-      matches = item.name.match(/^\((.*?)\)/)
+      name = item.name
 
-      if matches
-        console.log "Found match! #{matches[1]}"
-        hours = parseFloat(matches[1])
+      if matches = item.name.match(/^\((.*?)\)/)
+        hoursString = matches[1]
+        postLock = false
+      else if matches = item.name.match(/^POSTLOCK\s*\((.*?)\)/i)
+        hoursString = matches[1]
+        postLock = true
+
+      if hoursString
+        hours = parseFloat(hoursString)
 
         if isNaN(hours)
           0
@@ -46,6 +52,7 @@
             checklistId: checklistId
             cardId: cardId
             hours: hours
+            postLock: postLock
             owners: @parseOwners(item.name)
 
   parseOwners: (itemName) ->
@@ -74,13 +81,10 @@
         $set:
           hoursRemaining: ownerHours.team
 
-      lastPoint = DataPoints.findOne
-        sprintId: sprint._id
-        owner: 'team'
-      ,
-        sort: [["time", "desc"]]
+      teamChange = @hoursChanged(sprint._id, "team", ownerHours)
+      postLockChange = @hoursChanged(sprint._id, "Post-Lock", ownerHours)
 
-      if !lastPoint || lastPoint.hoursRemaining != ownerHours.team
+      if teamChange || postLockChange
         _.each ownerHours, (hours, owner) ->
           point = DataPoints.insert
             sprintId: sprint._id
@@ -88,14 +92,26 @@
             hoursRemaining: hours
             owner: owner
 
+  hoursChanged: (sprintId, owner, ownerHours) ->
+    lastPoint = DataPoints.findOne
+      sprintId: sprintId
+      owner: owner
+    ,
+      sort: [["time", "desc"]]
+
+    !lastPoint || lastPoint.hoursRemaining != ownerHours[owner]
+
   currentHours: (sprintId) ->
     tasks = Tasks.find({sprintId: sprintId}).fetch()
 
-    ownerHours = {}
+    ownerHours = {team: 0, "Post-Lock": 0}
 
     _.each tasks, (task) ->
-      _.each task.owners, (owner) ->
-        ownerHours[owner] ||= 0
-        ownerHours[owner] += task.hours
+      if task.postLock
+        ownerHours['Post-Lock'] += task.hours
+      else
+        _.each task.owners, (owner) ->
+          ownerHours[owner] ||= 0
+          ownerHours[owner] += task.hours
 
     ownerHours
