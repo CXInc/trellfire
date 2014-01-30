@@ -1,7 +1,7 @@
 Trellfire
 =========
 
-Trellfire is an app that generates burndown charts from Trello boards. It uses the [Trello webhook API](https://trello.com/docs/gettingstarted/webhooks.html) to provide real-time updates to the burndown chart. Authorization is currently done through GitHub, and authorization is based upon membership in a GitHub organization, although alternate authentication/authorization methods are planned.
+Trellfire is an app that generates burndown charts from Trello boards. It uses the [Trello webhook API](https://trello.com/docs/gettingstarted/webhooks.html) to provide real-time updates to the burndown chart. Authentication is currently done through GitHub, and authorization can either be based on a whitelist of usernames or membership in a GitHub organization.
 
 Deploying your own instance
 ---------------------------
@@ -9,7 +9,7 @@ Deploying your own instance
 Trellfire is a [Meteor](https://www.meteor.com) app. The easiest way to deploy it is through Meteor themselves, however there are other [deployment options](http://docs.meteor.com/#deploying).
 
   * Install [Meteor](https://www.meteor.com)
-  * Clone the repo or [Download](https://github.com/CXInc/Trellfire/archive/master.zip) Trellfire
+  * Clone the repo or [Download](https://github.com/CXInc/trellfire/archive/master.zip) Trellfire
 
 In the Trellfire folder, make a copy of the example settings:
 
@@ -18,7 +18,9 @@ In the Trellfire folder, make a copy of the example settings:
 Edit it to add the configuration values you'll be using:
 
   * appName - Shows up in the app header
-  * org - The GitHub org name that users must belong to in order to access the app
+  * authorizationMethod - Either "github-org" or "username"
+  * authorizedUsernames - When authorizationMethod is "username", this is the array of GitHub usernames authorized to use the app
+  * org - When authorizationMethod is "github-org", this is the GitHub org name that users must belong to in order to access the app
   * trelloBoardId - Open the board in Trello, and go to Menu -> Share, Print, and Export... -> Export JSON. The first id is the board ID.
   * trelloKey - Get one at https://trello.com/1/appKey/generate
   * trelloToken - Substitute your key into this URL, and go through authorization: https://trello.com/1/authorize?key=YOUR-KEY-HERE&name=Trellfire&expiration=never&response_type=token

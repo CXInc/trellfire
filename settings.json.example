@@ -1,8 +1,11 @@
 {
+  "authorizationMethod": "username",
+  "authorizedUsernames": [
+    "frodo"
+  ],
   "public": {
     "appName": "Trellfire"
   },
-  "org":"GITHUB ORG NAME",
   "trelloBoardId": "TRELLO BOARD ID",
   "trelloToken": "OAUTH TOKEN",
   "trelloKey": "TRELLO DEVELOPER KEY"

@@ -1,6 +1,13 @@
 @Authorization =
 
   authorize: (user) ->
+    switch Meteor.settings.authorizationMethod
+      when "github-org"
+        @githubOrgAuth(user)
+      else
+        @usernameAuth(user)
+
+  githubOrgAuth: (user) ->
     token = user.services.github.accessToken
 
     github = new GitHub
@@ -26,3 +33,12 @@
       , (e) ->
         console.log 'bind failure'
     )
+
+  usernameAuth: (user) ->
+    username = user.services.github.username
+    authorized = _.contains Meteor.settings.authorizedUsernames, username
+
+    Meteor.users.update user._id,
+      $set:
+        authCheckComplete: true
+        authorized: authorized
