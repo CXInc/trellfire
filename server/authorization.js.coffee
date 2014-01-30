@@ -4,6 +4,8 @@
     switch Meteor.settings.authorizationMethod
       when "github-org"
         @githubOrgAuth(user)
+      when "none"
+        @noAuth(user)
       else
         @usernameAuth(user)
 
@@ -42,3 +44,9 @@
       $set:
         authCheckComplete: true
         authorized: authorized
+
+  noAuth: (user) ->
+    Meteor.users.update user._id,
+      $set:
+        authCheckComplete: true
+        authorized: true

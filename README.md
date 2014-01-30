@@ -3,6 +3,8 @@ Trellfire
 
 Trellfire is an app that generates burndown charts from Trello boards. It uses the [Trello webhook API](https://trello.com/docs/gettingstarted/webhooks.html) to provide real-time updates to the burndown chart. Authentication is currently done through GitHub, and authorization can either be based on a whitelist of usernames or membership in a GitHub organization.
 
+Demo: [http://trellfire.meteor.com](http://trellfire.meteor.com)
+
 Deploying your own instance
 ---------------------------
 
@@ -15,10 +17,16 @@ In the Trellfire folder, make a copy of the example settings:
 
     cp settings.json.example settings.json
 
-Edit it to add the configuration values you'll be using:
+You'll have to decide on one of these three available authorization methods:
+
+  * username - The GitHub username of the user must be on a whitelist
+  * github-org - The user must belong to the specified GitHub org
+  * none - All authenticated users are authorized. This is used in the demo, but may also be reasonable if you're using Trellfire on a server that isn't publicly accessible.
+
+Edit it to add the configuration values you'll be using
 
   * appName - Shows up in the app header
-  * authorizationMethod - Either "github-org" or "username"
+  * authorizationMethod - Either "github-org", "username" or "none"
   * authorizedUsernames - When authorizationMethod is "username", this is the array of GitHub usernames authorized to use the app
   * org - When authorizationMethod is "github-org", this is the GitHub org name that users must belong to in order to access the app
   * trelloBoardId - Open the board in Trello, and go to Menu -> Share, Print, and Export... -> Export JSON. The first id is the board ID.
