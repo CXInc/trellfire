@@ -54,7 +54,7 @@ The parenthesis containing the number of hours has to be at the very beginning, 
 
 Tasks added post-lock simply have the text "POSTLOCK" added to the beginning, for instance:
 
-    (1) @samwise Leave the Shire
+    POSTLOCK (1) @samwise Leave the Shire
 
 Trellfire only looks at the names of checklist items, so card and checklist names can be named however you want.
 
