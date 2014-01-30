@@ -25,3 +25,4 @@ Deps.autorun ->
     Meteor.users.find {_id: @userId},
       fields:
         authorized: 1
+        authCheckComplete: 1
