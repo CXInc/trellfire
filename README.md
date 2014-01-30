@@ -3,7 +3,7 @@ Trellfire
 
 Trellfire is an app that generates burndown charts from Trello boards. It uses the [Trello webhook API](https://trello.com/docs/gettingstarted/webhooks.html) to provide real-time updates to the burndown chart. Authentication is currently done through GitHub, and authorization can either be based on a whitelist of usernames or membership in a GitHub organization.
 
-Demo: [http://trellfire.meteor.com](http://trellfire.meteor.com)
+[Demo](http://trellfire.meteor.com) and the [Trello Board](https://trello.com/b/dCWRlbJW/trellfire-demo) it's attached to
 
 Deploying your own instance
 ---------------------------
