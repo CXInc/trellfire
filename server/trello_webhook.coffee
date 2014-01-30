@@ -26,7 +26,7 @@
 
     result = HTTP.post url,
       data:
-        description: "trello-burndown"
+        description: "trellfire"
         callbackURL: @webhookUrl()
         idModel: Meteor.settings.trelloBoardId
     console.log "create result: #{JSON.stringify(result.data,true,2)}"

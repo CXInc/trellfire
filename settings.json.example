@@ -1,6 +1,6 @@
 {
   "public": {
-    "appName": "Trello Burndown"
+    "appName": "Trellfire"
   },
   "org":"GITHUB ORG NAME",
   "trelloBoardId": "TRELLO BOARD ID",
