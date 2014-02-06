@@ -11,11 +11,11 @@ actualSeries = (sprintId) ->
     palette = new Rickshaw.Color.Palette()
 
     _.map grouped, (points, owner) ->
-      color = if owner == 'team' then 'steelblue' else palette.color()
+      color = if owner == 'Team' then 'steelblue' else palette.color()
 
       {
         color: color
-        name: "Actual for #{owner}"
+        name: owner
         data: _.map points, (point) ->
           {x: point.time, y: point.hoursRemaining}
       }

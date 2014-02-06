@@ -16,27 +16,21 @@
         @updateCard(actionData.card)
 
   updateItemTask: (item, listId, cardId) ->
-    console.log "updateItemTask"
-
-    if item.state == "complete"
-      console.log "removing #{item.id}"
-      Tasks.update {trelloId: item.id}, {$set: {hours: 0}}, {multi: true}
-    else
-      console.log "updating check item #{item.id}"
-      Updater.updateCheckItem(item, listId, cardId)
+    console.log "updating check item #{item.id}"
+    Updater.updateCheckItem(item, listId, cardId)
 
     Updater.recalculateHours()
 
   removeChecklist: (checklist) ->
     console.log "removeChecklist"
 
-    Tasks.update {checklistId: checklist.id}, {$set: {hours: 0}}, {multi: true}
+    Tasks.update {checklistId: checklist.id}, {$set: {complete: true}}, {multi: true}
     Updater.recalculateHours()
 
   removeCard: (card) ->
     console.log "removeCard"
 
-    Tasks.update {cardId: card.id}, {$set: {hours: 0}}, {multi: true}
+    Tasks.update {cardId: card.id}, {$set: {complete: true}}, {multi: true}
     Updater.recalculateHours()
 
   updateCard: (card) ->

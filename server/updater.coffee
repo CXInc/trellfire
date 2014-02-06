@@ -29,35 +29,33 @@
       @updateCheckItem(item, checklist.id, cardId)
 
   updateCheckItem: (item, checklistId, cardId) ->
-    if item.state == "incomplete"
-      console.log "Incomplete item: #{item.name}"
+    name = item.name
 
-      name = item.name
+    if matches = item.name.match(/^\((.*?)\)/)
+      hoursString = matches[1]
+      postLock = false
+    else if matches = item.name.match(/^POSTLOCK\s*\((.*?)\)/i)
+      hoursString = matches[1]
+      postLock = true
 
-      if matches = item.name.match(/^\((.*?)\)/)
-        hoursString = matches[1]
-        postLock = false
-      else if matches = item.name.match(/^POSTLOCK\s*\((.*?)\)/i)
-        hoursString = matches[1]
-        postLock = true
+    if hoursString
+      hours = parseFloat(hoursString)
 
-      if hoursString
-        hours = parseFloat(hoursString)
-
-        if isNaN(hours)
-          0
-        else
-          @upsertTask
-            trelloId: item.id
-            checklistId: checklistId
-            cardId: cardId
-            hours: hours
-            postLock: postLock
-            owners: @parseOwners(item.name)
+      if isNaN(hours)
+        0
+      else
+        @upsertTask
+          trelloId: item.id
+          checklistId: checklistId
+          cardId: cardId
+          hours: hours
+          postLock: postLock
+          complete: item.state == "complete"
+          owners: @parseOwners(item.name)
 
   parseOwners: (itemName) ->
     owners = itemName.match(/(\@\w+)/g) || []
-    owners.concat("team")
+    owners.concat("Team")
 
   upsertTask: (data) ->
     Sprints.find().forEach (sprint) ->
@@ -79,12 +77,12 @@
 
       Sprints.update sprint._id,
         $set:
-          hoursRemaining: ownerHours.team
+          hoursRemaining: ownerHours['Team']
 
-      teamChange = @hoursChanged(sprint._id, "team", ownerHours)
-      postLockChange = @hoursChanged(sprint._id, "Post-Lock", ownerHours)
+      anyHoursChanged = _.any ownerHours, (owner, hours) =>
+        @hoursChanged(sprint._id, owner, ownerHours)
 
-      if teamChange || postLockChange
+      if anyHoursChanged
         _.each ownerHours, (hours, owner) ->
           point = DataPoints.insert
             sprintId: sprint._id
@@ -104,14 +102,17 @@
   currentHours: (sprintId) ->
     tasks = Tasks.find({sprintId: sprintId}).fetch()
 
-    ownerHours = {team: 0, "Post-Lock": 0}
+    ownerHours = {"Team": 0, "Post-Lock Total": 0, "Post-Lock Burndown": 0}
 
     _.each tasks, (task) ->
       if task.postLock
-        ownerHours['Post-Lock'] += task.hours
+        ownerHours['Post-Lock Total'] += task.hours
+
+        if !task.complete
+          ownerHours['Post-Lock Burndown'] += task.hours
       else
         _.each task.owners, (owner) ->
           ownerHours[owner] ||= 0
-          ownerHours[owner] += task.hours
+          ownerHours[owner] += task.hours if !task.complete
 
     ownerHours
