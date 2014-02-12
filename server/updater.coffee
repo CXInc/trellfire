@@ -83,12 +83,38 @@
         @hoursChanged(sprint._id, owner, ownerHours)
 
       if anyHoursChanged
-        _.each ownerHours, (hours, owner) ->
-          point = DataPoints.insert
+        _.each ownerHours, (hours, owner) =>
+          @addPoint
             sprintId: sprint._id
-            time: moment().unix()
             hoursRemaining: hours
             owner: owner
+
+  # args
+  # - sprintId
+  # - hoursRemaining
+  # - owner
+  addPoint: (args) ->
+    @removeRedundantPoint(args)
+
+    DataPoints.insert
+      sprintId: args.sprintId
+      time: moment().unix()
+      hoursRemaining: args.hoursRemaining
+      owner: args.owner
+
+  removeRedundantPoint: (args) ->
+    unsortedPoints = DataPoints.find
+      sprintId: args.sprintId
+      owner: args.owner
+    ,
+      sort: [["time", "desc"]]
+    .fetch()
+
+    lastPoints = _.sortBy unsortedPoints, (point) ->
+      -point.time
+
+    if lastPoints.length >= 2 && lastPoints[0].hoursRemaining == lastPoints[1].hoursRemaining
+      DataPoints.remove lastPoints[0]._id
 
   hoursChanged: (sprintId, owner, ownerHours) ->
     lastPoint = DataPoints.findOne
