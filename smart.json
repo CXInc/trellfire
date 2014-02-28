@@ -5,6 +5,7 @@
     "spin": {},
     "moment": {},
     "github-api": {},
-    "percolatestudio-migrations": {}
+    "percolatestudio-migrations": {},
+    "apm": {}
   }
 }
