@@ -17,7 +17,7 @@ isAuthorized = ->
 hasOneSprint = ->
   sprint = Sprints.findOne({})
 
-  unless sprint?
+  if isAuthorized() && !sprint?
     @render('newSprint')
     @stop()
 
