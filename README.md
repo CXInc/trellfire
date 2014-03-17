@@ -35,9 +35,9 @@ Edit it to add the configuration values you'll be using
 
 Deploy:
 
-    meteor deploy NAME --password --debug --settings settings.json
+    meteor deploy NAME --debug --settings settings.json
 
-Replace NAME with whatever you want the subdomain for you app to be, for example trellfire.meteor.com. Turning on password protection of your app is recommended, but not required. The debug option is necessary because there's a Trellfire dependency that breaks during Meteor's minification process.
+Replace NAME with whatever you want the subdomain for you app to be, for example trellfire.meteor.com. The debug option is necessary because there's a Trellfire dependency that breaks during Meteor's minification process.
 
 Usage
 -----
