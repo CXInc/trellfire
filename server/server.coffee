@@ -41,6 +41,7 @@ Meteor.methods
       Sprints.update {}, {$set: {updating: false}}, {multi: true}
       Updater.recalculateHours()
     catch error
+      Sprints.update {}, {$set: {updating: false}}, {multi: true}
       console.log "Update failed: #{error}"
 
     TrelloWebhook.check()
