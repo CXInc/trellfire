@@ -70,8 +70,8 @@
     console.log "Calculating hours"
 
     Sprints.find().forEach (sprint) =>
-      stillRunning = !sprint.endTime || moment().unix() < sprint.endTime
-      return unless stillRunning
+      sprintDone = sprint.endTime && moment().unix() > sprint.endTime
+      return if sprintDone || sprint.updating
 
       ownerHours = @currentHours(sprint._id)
 
