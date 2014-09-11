@@ -87,6 +87,8 @@ projectedSeries = (sprintId) ->
   }
 
 Template.chart.rendered = ->
+  return unless @data
+
   sprintId = @data._id
 
   if !@handle
@@ -129,4 +131,4 @@ Template.chart.rendered = ->
       graph.render()
 
 Template.chart.destroyed = ->
-  @handle.stop()
+  @handle.stop() if @handle
