@@ -10,13 +10,13 @@
             <li><a href="{{pathFor 'sprintList'}}">All Sprints</a></li>
           </ul>
           <ul class="nav pull-right">
-            <li>{{loginButtons}}</li>
+            <li>{{> loginButtons}}</li>
           </ul>
         </div>
       </div>
     </header>
     <div id="main" class="row-fluid">
-      {{yield}}
+      {{> yield}}
     </div>
   </div>
 </template>

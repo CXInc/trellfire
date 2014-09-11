@@ -1,6 +1,6 @@
 {
-  "apmId": "Meteor APM App ID",
-  "apmSecret": "Meteor APM App Secret",
+  "kadiraId": "Meteor APM App ID",
+  "kadiraSecret": "Meteor APM App Secret",
   "authorizationMethod": "username",
   "authorizedUsernames": [
     "frodo"

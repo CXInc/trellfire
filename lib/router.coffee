@@ -4,22 +4,22 @@ Router.configure
   waitOn: ->
     [Meteor.subscribe('sprints'), Meteor.subscribe('data_points'), Meteor.subscribe('excluded_times')]
 
-isAuthenticated = ->
+isAuthenticated = (pause) ->
   if !Meteor.loggingIn() && !Meteor.user()
     @render('signIn')
-    @stop()
+    pause()
 
-isAuthorized = ->
+isAuthorized = (pause) ->
   if Meteor.user() && Meteor.user().authCheckComplete && !Meteor.user().authorized
     @render('unauthorized')
-    @stop()
+    pause()
 
-hasOneSprint = ->
+hasOneSprint = (pause) ->
   sprint = Sprints.findOne({})
 
   if isAuthorized() && !sprint?
     @render('newSprint')
-    @stop()
+    pause()
 
 Router.map ->
   @route 'currentSprint',
@@ -50,13 +50,14 @@ Router.map ->
       TrelloEvents.handle(@request.body)
       @response.writeHead 200,
         'Content-Type': 'application/json'
-      @response.write('{"result":"OK"}');
+      @response.write('{"result":"OK"}')
+      @response.end()
 
-Router.before isAuthenticated,
+Router.onBeforeAction isAuthenticated,
   except: ['signIn', 'trelloWebhook']
 
-Router.before isAuthorized,
+Router.onBeforeAction isAuthorized,
   except: ['signIn', 'unauthorized', 'trelloWebhook']
 
-Router.before hasOneSprint,
+Router.onBeforeAction hasOneSprint,
   except: ['signIn', 'unauthorized', 'trelloWebhook']

@@ -4,18 +4,18 @@
 # but you can also edit it by hand.
 
 insecure
-preserve-inputs
 standard-app-packages
 coffeescript
 underscore
 http
-rickshaw
-iron-router
-spin
+fcallem:rickshaw
+iron:router
+sacha:spin
 bootstrap
-moment
+mrt:moment
 accounts-ui
 accounts-github
-github-api
-percolatestudio-migrations
-apm
+percolatestudio:percolatestudio-migrations
+meteorhacks:kadira
+bruz:github-api
+
