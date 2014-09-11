@@ -1,6 +1,4 @@
-authorized = (userId) ->
-  user = Meteor.users.findOne({_id: userId})
-  user && user.authorized
+authorized = Authorization.authorized
 
 Deps.autorun ->
   Meteor.publish 'sprints', (options) ->

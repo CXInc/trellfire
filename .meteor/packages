@@ -18,4 +18,5 @@ accounts-github
 percolatestudio:percolatestudio-migrations
 meteorhacks:kadira
 bruz:github-api
+cxinc:github-authorization
 
