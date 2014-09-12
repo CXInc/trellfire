@@ -87,8 +87,6 @@ projectedSeries = (sprintId) ->
   }
 
 Template.chart.rendered = ->
-  return unless @data
-
   sprintId = @data._id
 
   if !@handle
