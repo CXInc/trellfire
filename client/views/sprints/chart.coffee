@@ -87,46 +87,43 @@ projectedSeries = (sprintId) ->
   }
 
 Template.chart.rendered = ->
-  sprintId = @data._id
+  @autorun ->
+    data = Blaze.getData()
+    sprintId = data && data._id
 
-  if !@handle
-    @handle = Meteor.autorun ->
-      Session.get("touch")
+    Session.get("touch")
 
-      series = actualSeries(sprintId)
-      return unless series
+    series = actualSeries(sprintId)
+    return unless series
 
-      projected = projectedSeries(sprintId)
-      series.push(projected) if projected
+    projected = projectedSeries(sprintId)
+    series.push(projected) if projected
 
-      # clear out existing graph
-      $('#chart, #legend').html('')
+    # clear out existing graph
+    $('#chart, #legend').html('')
 
-      window.graph = new Rickshaw.Graph
-        element: document.querySelector("#chart")
-        renderer: 'line'
-        interpolation: 'linear'
-        series: series
+    window.graph = new Rickshaw.Graph
+      element: document.querySelector("#chart")
+      renderer: 'line'
+      interpolation: 'linear'
+      series: series
 
-      xAxis = new Rickshaw.Graph.Axis.Time
-        graph: graph
+    xAxis = new Rickshaw.Graph.Axis.Time
+      graph: graph
 
-      hoverDetail = new Rickshaw.Graph.HoverDetail
-        graph: graph
+    hoverDetail = new Rickshaw.Graph.HoverDetail
+      graph: graph
 
-      legend = new Rickshaw.Graph.Legend
-        element: document.querySelector('#legend')
-        graph: graph
+    legend = new Rickshaw.Graph.Legend
+      element: document.querySelector('#legend')
+      graph: graph
 
-      shelving = new Rickshaw.Graph.Behavior.Series.Toggle
-        graph: graph
-        legend: legend
+    shelving = new Rickshaw.Graph.Behavior.Series.Toggle
+      graph: graph
+      legend: legend
 
-      highlighter = new Rickshaw.Graph.Behavior.Series.Highlight
-        graph: graph
-        legend: legend
+    highlighter = new Rickshaw.Graph.Behavior.Series.Highlight
+      graph: graph
+      legend: legend
 
-      graph.render()
-
-Template.chart.destroyed = ->
-  @handle.stop() if @handle
+    graph.render()
