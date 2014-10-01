@@ -8,7 +8,6 @@ standard-app-packages
 coffeescript
 underscore
 http
-fcallem:rickshaw
 iron:router
 sacha:spin
 bootstrap
@@ -19,4 +18,6 @@ percolatestudio:percolatestudio-migrations
 meteorhacks:kadira
 bruz:github-api
 cxinc:github-authorization
+d3
+manuelschoebel:wait-on-lib
 

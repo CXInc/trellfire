@@ -24,7 +24,6 @@ deps@1.0.4
 ejson@1.0.3
 email@1.0.3
 fastclick@1.0.0
-fcallem:rickshaw@0.0.2
 follower-livedata@1.0.1
 geojson-utils@1.0.0
 github@1.1.0
@@ -43,6 +42,7 @@ less@1.0.9
 livedata@1.0.10
 localstorage@1.0.0
 logging@1.0.3
+manuelschoebel:wait-on-lib@0.1.0
 meteor-platform@1.1.1
 meteor@1.1.1
 meteorhacks:kadira-binary-deps@1.0.1

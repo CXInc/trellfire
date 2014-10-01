@@ -21,11 +21,20 @@ hasOneSprint = (pause) ->
     @render('newSprint')
     pause()
 
+sprintDetail = ->
+  @wait(IRLibLoader.load('//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js'))
+
+  if @ready()
+    @render('sprintDetail')
+  else
+    @render('loading')
+
 Router.map ->
   @route 'currentSprint',
     path: '/'
     data: ->
       Sprints.findOne {}, {sort: [["endTime", "desc"]]}
+    action: sprintDetail
 
   @route 'excludedDayList',
     path: '/sprints/:_id/excluded-days'
@@ -39,6 +48,7 @@ Router.map ->
     path: '/sprints/:_id'
     data: ->
       Sprints.findOne @params._id
+    action: sprintDetail
 
   @route 'sprintList',
     path: '/sprints'
