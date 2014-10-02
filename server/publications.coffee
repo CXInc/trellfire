@@ -1,21 +1,33 @@
 authorized = Authorization.authorized
 
 Deps.autorun ->
-  Meteor.publish 'sprints', (options) ->
+  Meteor.publish 'current_sprint', ->
     if authorized(@userId)
-      Sprints.find {}, options
+      Sprints.find {}, {sort: [["endTime", "desc"]], limit: 1}
     else
       @stop()
 
-  Meteor.publish 'data_points', (options) ->
+  Meteor.publish 'sprint', (id) ->
     if authorized(@userId)
-      DataPoints.find {}, options
+      Sprints.find {_id: id}
     else
       @stop()
 
-  Meteor.publish 'excluded_times', (options) ->
+  Meteor.publish 'all_sprints', ->
     if authorized(@userId)
-      ExcludedTimes.find {}, options
+      Sprints.find {}
+    else
+      @stop()
+
+  Meteor.publish 'data_points', (sprintId) ->
+    if authorized(@userId)
+      DataPoints.find {sprintId: sprintId}
+    else
+      @stop()
+
+  Meteor.publish 'excluded_times', (sprintId) ->
+    if authorized(@userId)
+      ExcludedTimes.find {sprintId: sprintId}
     else
       @stop()
 

@@ -1,8 +1,6 @@
 Router.configure
   layoutTemplate: 'layout'
   loadingTemplate: 'loading'
-  waitOn: ->
-    [Meteor.subscribe('sprints'), Meteor.subscribe('data_points'), Meteor.subscribe('excluded_times')]
 
 isAuthenticated = (pause) ->
   if !Meteor.loggingIn() && !Meteor.user()
@@ -21,23 +19,25 @@ hasOneSprint = (pause) ->
     @render('newSprint')
     pause()
 
-sprintDetail = ->
-  @wait(IRLibLoader.load('//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js'))
-
-  if @ready()
-    @render('sprintDetail')
-  else
-    @render('loading')
-
 Router.map ->
   @route 'currentSprint',
     path: '/'
-    data: ->
-      Sprints.findOne {}, {sort: [["endTime", "desc"]]}
-    action: sprintDetail
+    action: ->
+      @wait Meteor.subscribe('current_sprint')
+
+      if @ready()
+        sprint = Sprints.findOne()
+        @redirect("/sprints/#{ sprint._id }")
+      else
+        @render('loading')
 
   @route 'excludedDayList',
     path: '/sprints/:_id/excluded-days'
+    waitOn: ->
+      [
+        Meteor.subscribe('sprint', @params._id)
+        Meteor.subscribe('excluded_times', @params._id)
+      ]
     data: ->
       Sprints.findOne @params._id
 
@@ -46,12 +46,26 @@ Router.map ->
 
   @route 'sprintDetail',
     path: '/sprints/:_id'
+    waitOn: ->
+      [
+        Meteor.subscribe('sprint', @params._id)
+        Meteor.subscribe('data_points', @params._id)
+        Meteor.subscribe('excluded_times', @params._id)
+      ]
     data: ->
       Sprints.findOne @params._id
-    action: sprintDetail
+    action: ->
+      @wait(IRLibLoader.load('//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js'))
+
+      if @ready()
+        @render('sprintDetail')
+      else
+        @render('loading')
 
   @route 'sprintList',
     path: '/sprints'
+    waitOn: ->
+      Meteor.subscribe('all_sprints')
 
   @route 'trelloWebhook',
     path: '/webhook'
