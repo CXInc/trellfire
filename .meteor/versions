@@ -17,7 +17,7 @@ check@1.0.1
 coffeescript@1.0.3
 ctl-helper@1.0.3
 ctl@1.0.1
-cxinc:github-authorization@0.2.0
+cxinc:github-authorization@0.2.1
 d3@1.0.0
 ddp@1.0.9
 deps@1.0.4
