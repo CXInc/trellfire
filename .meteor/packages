@@ -17,7 +17,7 @@ accounts-github
 percolatestudio:percolatestudio-migrations
 meteorhacks:kadira
 bruz:github-api
-cxinc:github-authorization
 d3
 manuelschoebel:wait-on-lib
+cxinc:github-authorization@0.2.2
 
